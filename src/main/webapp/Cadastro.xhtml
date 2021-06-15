@@ -25,9 +25,12 @@
 
 		</h:panelGrid>
 
-		<h:commandButton id="cmdbtGravar" value="Gravar" />
-		<h:commandButton id="cmdbtCancelar" value="Cancelar" />
+		<h:commandButton id="cmdbtGravar" actionListener="#{cMB.concatenar}" value="Gravar" />
+		<h:commandButton id="cmdbtCancelar" actionListener="#{cMB.limparCliente}" value="Limpar" />
 
+		<h:panelGrid colSumns="1">
+			<h:outputLabel id="lblConcatenado" value="#{cMB.cliente.concatenado}" />
+		</h:panelGrid>
 
 	</h:form>
 

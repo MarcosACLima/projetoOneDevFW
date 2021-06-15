@@ -9,6 +9,7 @@ public class ECliente implements Serializable {
 	private String cpf;
 	private String nome;
 	private String descricao;
+	private String concatenado;
 	
 	public String getCpf() {
 		return cpf;
@@ -27,6 +28,12 @@ public class ECliente implements Serializable {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public String getConcatenado() {
+		return concatenado;
+	}
+	public void setConcatenado(String concatenado) {
+		this.concatenado = concatenado;
 	}
 
 }
