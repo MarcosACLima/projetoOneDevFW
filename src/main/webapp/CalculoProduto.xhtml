@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<title>Tela de Produto</title>
+</h:head>
+
+<h:body>
+	<h1>Cálculo Valor Total do Produto</h1>
+	<h:form>
+
+		<h:panelGrid columns="2">
+
+			<h:outputLabel id="lblNome" value="Nome:" />
+			<h:inputText id="inptxtNome" value="#{pMB.produto.nome}" size="40" />
+
+			<h:outputLabel id="lblDescricao" value="Descrição:" />
+			<h:inputTextarea id="inptDescricao" value="#{pMB.produto.descricao}"
+				rows="5" cols="40" />
+
+			<h:outputLabel id="lblPreco" value="Preço:" />
+			<h:inputText id="inptxtPreco" value="#{pMB.produto.preco}" size="10" />
+			
+			<h:outputLabel id="lblQuantidade" value="Quantidade" />
+			<h:inputText id="inptxtQuantidade" value="#{pMB.produto.quantidade}" size="10" />
+					
+		</h:panelGrid>
+
+		<h:commandButton id="cmdbtGravar" actionListener="#{pMB.calcularPrecoTotal}"
+			value="Calcular Valor" />
+		<h:commandButton id="cmdbtCancelar"
+			actionListener="#{pMB.limparProduto}" value="Limpar" />
+
+		<h:panelGrid colSumns="1">
+			<h:outputLabel id="lblValorTotal" value="Valor Total: R$ #{pMB.produto.valorTotal}" />
+		</h:panelGrid>
+
+	</h:form>
+
+</h:body>
+
+</html>

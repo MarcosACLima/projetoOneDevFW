@@ -27,7 +27,9 @@ public class ClienteMB implements Serializable {
 	}
 
 	public void concatenar() {
-		cliente.setConcatenado(cliente.getCpf().concat(cliente.getNome().concat(cliente.getDescricao())));
+		cliente.setConcatenado(
+				cliente.getCpf().concat(cliente.getNome().concat(cliente.getDescricao()
+						)));
 	}
 	
 	public void limparCliente() {
