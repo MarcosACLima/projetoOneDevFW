@@ -3,10 +3,12 @@ package controle;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import entidade.ECliente;
+import util.SessionContext;
 
 // Classe ManagedBean
 @Named("cMB")
@@ -14,6 +16,18 @@ import entidade.ECliente;
 public class ClienteMB implements Serializable {
 
 	private static final long serialVersionUID = 5110913467100493418L;
+	
+	public ClienteMB() {
+		if (SessionContext.getInstance().getAttribute("usuario") == null) {
+			
+			try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("Login.xhtml");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
 
 	@Inject
 	ECliente cliente;
