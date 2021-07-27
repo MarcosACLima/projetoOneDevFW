@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+.painel {
+	width: 40%;
+}
+
+.alinharDireita {
+	text-align: right;
+}
+
+.alinharEsquerda {
+	text-align: left;
+}
+
+.tabela {
+	widows: 100%;
+}
+
+.corBranca {
+	color: white;
+}

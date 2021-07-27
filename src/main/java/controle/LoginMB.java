@@ -22,8 +22,9 @@ public class LoginMB implements Serializable {
 	
 	public LoginMB() throws SQLException {
 		
-		SessionContext.getInstance().encerrarSessao();
-		
+		if (SessionContext.getInstance() != null) {
+			SessionContext.getInstance().encerrarSessao();
+		}
 	}
 	
 	@Inject
@@ -48,10 +49,10 @@ public class LoginMB implements Serializable {
 			oMsg.mensagemSenhaIncorreta();
 			return;
 		} else {
-			SessionContext.getInstance().setAttribute("usuario", login.getUsuario());;
+			SessionContext.getInstance().setAttribute("usuario", login.getUsuario());
 			login = new Login();
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("Cadastro.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("CadastroGeral.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

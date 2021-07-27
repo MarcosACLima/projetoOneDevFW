@@ -23,16 +23,19 @@
 			<p:inputText id="inptxtNome" value="#{cMB.cliente.nome}" size="40" />
             
 			<p:outputLabel id="lblDescricao" value="Descrição:" />
-			<p:inputTextarea id="inptDescricao" value="#{cMB.cliente.descricao}" rows="5" cols="40" />
+			<p:inputTextarea id="inptDescricao" value="#{cMB.cliente.descricao}" 
+				rows="5" cols="40" />
 
 		</h:panelGrid>
 		
 		<div class="centralizarBotoes">
-			<p:commandButton id="cmdbtGravar" actionListener="#{cMB.concatenar}" value="Gravar" />
-			<p:commandButton id="cmdbtCancelar" actionListener="#{cMB.limparCliente}" value="Limpar" />
+			<p:commandButton id="cmdbtGravar" actionListener="#{cMB.concatenar}" 
+				value="Gravar" />
+			<p:commandButton id="cmdbtCancelar" 
+				actionListener="#{cMB.limparCliente}" value="Limpar" />
 		</div>
 
-		<h:panelGrid colSumns="1">
+		<h:panelGrid columns="1">
 			<p:outputLabel id="lblConcatenado" value="#{cMB.cliente.concatenado}" />
 		</h:panelGrid>
 
