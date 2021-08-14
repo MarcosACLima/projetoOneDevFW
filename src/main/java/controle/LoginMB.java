@@ -40,7 +40,7 @@ public class LoginMB implements Serializable {
 	
 	public void validarLogin() {
 		
-		if (!login.getUsuario().equalsIgnoreCase("andre")) {
+		if (!login.getUsuario().equalsIgnoreCase("marcos")) {
 			oMsg.mensagemUsuarioInexistente();
 			return;
 		} 
@@ -52,7 +52,7 @@ public class LoginMB implements Serializable {
 			SessionContext.getInstance().setAttribute("usuario", login.getUsuario());
 			login = new Login();
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("CadastroGeral.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("FolhaPagamento.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

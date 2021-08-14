@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset-UTF-8" />
+	<h:outputStylesheet library="css" name="folhaPagamento.css" />
+	<title>Folha de Pagamento</title>
+</h:head>
+
+<h:body>
+
+	<table class="tabela">
+		<tr>
+			<td width="5%"><h:graphicImage library="imagens"
+					name="ifgoiano.png" width="70" /></td>
+			<td><p:outputLabel style="font-size:20px"
+					value="Folha de Pagamento" /></td>
+			<td align="right"><h:outputLink value="Login.xhtml">
+					<h:graphicImage library="imagens" name="sair.jpg" width="40"
+						height="40" title="Retornar" />
+				</h:outputLink></td>
+		</tr>
+	</table>
+	
+	<p:growl life="3600">
+		<p:autoUpdate />
+	</p:growl>
+	
+	<p:confirmDialog global="true">
+		<p:commandButton immediate="true" value="Sim"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton immediate="true" value="Não"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-closethick" />
+	</p:confirmDialog>
+	
+	<h:form id="formulario">
+		<p:tabView activeIndex="0">
+			<p:tab title="Folha de Pagamento">
+				<p:panel header="Dados do Funcionário" id="painel">
+					<p:focus context="painel" for="cpf" />
+					<h:panelGrid columns="2" 
+						columnClasses="alinharEsquerda, alinhar Direita">
+						
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+					
+						<p:outputLabel for="cpf" value="CPF:" />
+						<p:inputMask mask="999.999.999-99" id="cpf" required="true"
+							requiredMessage="Digite o CPF!"
+							value="#{funcionarioMB.funcionario.cpf}" size="12" />
+							
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText id="nome" value="#{funcionarioMB.funcionario.nome}" size="30"
+							placeholder="Digite o nome aqui" required="true"
+							requiredMessage="Digite o Nome!" />
+							
+						<p:outputLabel value="Sexo" for="sexo"/>
+						<p:inputText id="sexo" value="#{funcionarioMB.funcionario.sexo}" size="12"
+							placeholder="Digite o sexo aqui" required="true"
+							requiredMessage="Digite o seu Sexo!"/>
+							
+						<p:outputLabel for="campoData" value="Data Nascimento:" />
+						<p:calendar size="12" value="#{funcionarioMB.funcionario.data_nasc}"
+							required="true" requiredMessage="Digite a Data Nascimento!"
+							id="campoData" showOn="button" pattern="dd/MM/yyyy" />
+						
+						<p:outputLabel value="Salário Bruto:" for="salario" />
+						<p:inputText required="true" requiredMessage="Digite o Salário Bruto, usando ponto (.) como separador decimal!" 
+							id="salario" value="#{funcionarioMB.salario}" size="12" placeholder="Digite o Salário Bruto aqui" />
+					
+					</h:panelGrid>
+				</p:panel>
+				
+				<br />
+				<p:spacer width="500" height="20" />
+				
+				<p:commandButton value="Calcular" 
+					title="Clique para calcular pagamento" update="formulario tabela"
+					icon="ui-icon-calculator" actionListener="#{funcionarioMB.calcular}" >
+					<p:confirm header="Confirmação"
+						message="Tem certeza que deseja calcular pagamento?" />
+				</p:commandButton>
+				<p:commandButton value="Limpar" immediate="true" 
+					update="formulario tabela" icon="ui-icon-squaresmall-minus"
+					actionListener="#{funcionarioMB.limpar}" onclick="reset()" />	
+					
+				<br />
+				<p:spacer width="500" height="10" />
+				
+				<p:dataTable value="#{funcionarioMB.listaFuncionario}" var="f" border="1"
+					id="tabela" emptyMessage="Nenhum funcionário na lista." >
+					
+					<p:column headerText="CPF" style="text-align:center;" width="55" >
+						<p:outputLabel value="#{f.cpf}" />
+					</p:column>
+					
+					<p:column sortBy="#{f.nome}" filterBy="#{f.nome}" headerText="Nome" width="100" >
+						<p:outputLabel value="#{f.nome}" />
+					</p:column>
+					
+					<p:column sortBy="#{f.sexo}" filterBy="#{f.sexo}" headerText="Sexo" width="50" >
+						<p:outputLabel value="#{f.sexo}" />
+					</p:column>
+					
+					<p:column style="text-align: right;" width="60" headerText="Data Nascimento" >
+						<h:outputText value="#{f.data_nasc}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Salário Bruto (R$)" style="text-align: rigth;" width="60">
+						<h:outputText value="#{f.salario_bruto}" >
+							<f:convertNumber minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Desconto INSS (R$)" style="text-align: right;"
+						width="80">
+						<h:outputText value="#{f.desc_Inss}">
+							<f:convertNumber minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+			
+					<p:column headerText="Desconto IR (R$)" style="text-align: right;"
+						width="80">
+						<h:outputText value="#{f.desc_IR}">
+							<f:convertNumber minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Salário Líquido (R$)" style="text-align: rigth;" width="60">
+						<h:outputText value="#{f.salario_liquido}" >
+							<f:convertNumber minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+					
+				</p:dataTable>
+							
+			</p:tab>
+		</p:tabView>
+	
+	
+	</h:form>
+
+</h:body>
+</html>
