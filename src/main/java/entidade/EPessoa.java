@@ -3,26 +3,54 @@ package entidade;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "pessoa")
 public class EPessoa implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue
+	private Long id;
+	
+	@Column(name = "cpf_cnpj")
 	private String cpf_cnpj;
 	
+	@Column(name = "nome")
 	private String nome;
 	
+	@Column(name = "email")
 	private String email;
 	
+	@Column(name = "observacao")
 	private String observacao;
 	
+	@Column(name = "curso")
 	private String curso;
 	
+	@Column(name = "data_nasc")
 	private Date data_nasc;
 	
+	@Column(name = "salario")
 	private double salario;
 	
+	@Column(name = "tipoPessoa")
 	private String tipoPessoa;
-	
+		
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getCpf_cnpj() {
 		return cpf_cnpj;
 	}

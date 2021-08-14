@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import entidade.EPessoa;
+import util.PessoaDAO;
 import util.SessionContext;
 
 @Named("pessoaMB")
@@ -78,9 +79,15 @@ public class PessoaMB implements Serializable {
 		this.listaCombo.add(new SelectItem("4", "Zootecnia"));
 	}
 	
-	public void salvar() throws ParseException {
-		this.listaPessoa.add(this.pessoa);
-		this.pessoa = new EPessoa();
+//	public void salvar() throws ParseException {
+//		this.listaPessoa.add(this.pessoa);
+//		this.pessoa = new EPessoa();
+//	}
+	
+	// salvar no banco
+	public void salvar() throws ParseException, SQLException {
+		PessoaDAO.getInstance().salvar(pessoa);
+		limpar();
 	}
 
 	public void limpar() throws ParseException {
