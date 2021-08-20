@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="estilo.css" />
+	<title>Cadastro Produto</title>
+</h:head>
+<h:body>
+
+	<table class="tabela">
+		<tr>
+			<td width="5%"><h:graphicImage library="imagens"
+					name="ifgoiano.png" width="70" /></td>
+			<td><p:outputLabel style="font-size:20px"
+					value="Cadastro de Produtos" /></td>
+			<td align="right"><h:outputLink value="Login.xhtml">
+					<h:graphicImage library="imagens" name="sair.jpg" width="40"
+						height="40" title="Retornar" />
+				</h:outputLink></td>
+		</tr>
+	</table>
+
+
+	<p:growl life="3000">
+		<p:autoUpdate />
+	</p:growl>
+
+	<p:confirmDialog global="true">
+		<p:commandButton immediate="true" value="Sim"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton immediate="true" value="Não"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-check" />
+	</p:confirmDialog>
+
+	<h:form id="formulario">
+		<p:tabView activeIndex="0">
+			<p:tab title="Cadastro">
+				<p:panel header="Dados do Produto" id="painel">
+					<p:focus context="painel" for="nome" />
+					<h:panelGrid columns="2"
+						columnClasses="alinharDireita, alinharEsquerda">
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText id="nome" value="#{produtoMB.produto.nome}" size="50"
+							placeholder="Digite o nome aqui" required="true"
+							requiredMessage="Digite o Nome!" />
+						
+						<p:outputLabel for="descricao" value="Descrição:" />
+						<p:inputTextarea id="descricao" cols="50" rows="5"
+							maxlength="200" required="true"
+							requiredMessage="Digite a Descrição" counter="digitos"
+							value="#{produtoMB.produto.descricao}"
+							counterTemplate="{0} caracteres restantes" />
+						<p:outputLabel value="" />
+						<p:outputLabel id="digitos" />	
+						
+						<p:outputLabel for="fabricante" value="Fabricante:" />
+						<p:inputText value="#{produtoMB.produto.fabricante}" id="fabricante" size="50"
+							placeholder="Digite o fabricante aqui" required="true"
+							requiredMessage="Digite o Fabricante!" />
+
+						<p:outputLabel value="Quantidade:" for="quantidade" />
+						<p:inputNumber required="true" requiredMessage="Digite a Quantidade"
+							id="quantidade" value="#{produtoMB.produto.quantidade}" size="20" />
+							
+						<p:outputLabel value="Preço:" for="preco" />
+						<p:inputNumber required="true" requiredMessage="Digite o Preço!"
+							id="preco" value="#{produtoMB.produto.preco}" size="20" />
+
+						
+						<p:outputLabel for="campoData" value="Data Cadastro" />
+						<p:calendar size="19" value="#{produtoMB.produto.data_cadastro}"
+							required="true" requiredMessage="Digite a Data Cadastro"
+							id="campoData" showOn="button" pattern="dd/MM/yyyy" />
+							
+						
+					</h:panelGrid>
+				</p:panel>
+
+				<br />
+				<p:spacer width="500" height="20" />
+				<p:commandButton value="Salvar" action="#{produtoMB.salvar}"
+					title="Clique para adicionar na lista" update="formulario tabela"
+					icon="ui-icon-disk">
+					<p:confirm header="Confirmação"
+						message="Tem certeza que deseja adicionar?" />
+				</p:commandButton>
+				<p:commandButton value="Editar" action="#{produtoMB.alterar}"
+					update="formulario tabela" icon="ui-icon-pencil" />
+				<p:commandButton value="Limpar" immediate="true"
+					actionListener="#{produtoMBMB.limpar}" update="formulario tabela" />
+				<div style="text-align: right">
+					<h:commandLink immediate="true">
+						<p:graphicImage library="imagens" name="xls.png" width="3%"
+							height="3%" title="Gerar XLS" />
+						<p:dataExporter type="xls" target="tabela" fileName="RelatorioXLS" />
+					</h:commandLink>
+
+					<h:commandLink immediate="true">
+						<p:graphicImage library="imagens" name="pdf.png" width="3%"
+							height="3%" title="Gerar PDF" />
+						<p:dataExporter type="pdf" target="tabela" fileName="RelatorioPDF" />
+					</h:commandLink>
+				</div>
+
+				<p:dataTable value="#{produtoMB.listaProduto}" var="p" border="1"
+					id="tabela" emptyMessage="Nenhum item na lista.">
+					
+					<p:column sortBy="#{p.nome}" filterBy="#{p.nome}" headerText="Nome">
+						<p:outputLabel value="#{p.nome}" />
+					</p:column>
+															
+					<p:column headerText="Descricao">
+						<p:outputLabel value="#{p.descricao}" />
+					</p:column>
+					
+					<p:column sortBy="#{p.fabricante}" filterBy="#{p.fabricante}"
+						headerText="Fabricante">
+						<p:outputLabel value="#{p.fabricante}" />
+					</p:column>
+					
+					<p:column headerText="Quantidade" filterBy="#{p.quantidade}"
+					sortBy="#{p.quantidade}">
+						<h:outputText value="#{p.quantidade}" />
+					</p:column>
+					
+					<p:column headerText="Preco" style="text-align:right;" width="60">
+						<h:outputText value="#{p.preco}">
+							<f:convertNumber minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Data Cadastro" style="text-align:center;"
+						width="70">
+						<h:outputText value="#{p.data_cadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Editar" width="40" exportable="false">
+						<p:commandButton icon="ui-icon-pencil" title="Editar"
+							action="#{produtoMB.prepararEdicao}" immediate="true"
+							update="formulario">
+							<f:param name="parametroId" value="#{p.id}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Excluir" width="40" exportable="false">
+						<p:commandButton action="#{produtoMB.excluir}" icon="ui-icon-trash"
+							title="Excluir" immediate="true" update="tabela">
+							<f:param name="parametroIdent" value="#{p.id}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+
+			</p:tab>
+
+			<p:tab title="Gŕafico">
+
+				<p:chart type="line" model="#{GraficoAreaMB.areaModel}"
+					style="height:300px" />
+
+			</p:tab>
+
+		</p:tabView>
+
+	</h:form>
+</h:body>
+</html>
