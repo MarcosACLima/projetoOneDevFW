@@ -6,8 +6,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.Application;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -26,9 +30,15 @@ public class PessoaMB implements Serializable {
 	public PessoaMB() throws SQLException {
 		
 		if (SessionContext.getInstance().getAttribute("usuario") == null) {
-			
+
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("Login.xhtml");
+
+				boolean respostaComprometida = FacesContext.getCurrentInstance().getExternalContext()
+						.isResponseCommitted();
+
+				if (!respostaComprometida) {
+					FacesContext.getCurrentInstance().getExternalContext().redirect("Login.xhtml");
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -36,9 +46,11 @@ public class PessoaMB implements Serializable {
 		}
 		
 		this.preencherCombo();
+		this.carregarLista();
 		
 	}
 	
+
 	@Inject
 	private EPessoa pessoa;
 	
@@ -85,14 +97,53 @@ public class PessoaMB implements Serializable {
 //	}
 	
 	// salvar no banco
-	public void salvar() throws ParseException, SQLException {
+	public void salvar(){
 		PessoaDAO.getInstance().salvar(pessoa);
-		limpar();
+		this.carregarLista();
+	}
+	
+	public void carregarLista() {
+		listaPessoa.clear();
+		listaPessoa = PessoaDAO.getInstance().listarTodos();
+		this.refresh();
 	}
 
-	public void limpar() throws ParseException {
-		this.listaPessoa.clear();
+	public void limpar()  { // limpar dados que estão na tela
 		this.pessoa = new EPessoa();
+		this.refresh();
 	}
+	
 
+	public void excluir() {
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		Object parametro = params.get("parametroIdent");
+		pessoa.setId(Long.parseLong(parametro.toString())); // converter String para Long
+		PessoaDAO.getInstance().remover(pessoa);
+		this.limpar();
+		this.carregarLista();
+	}
+	
+	public void alterar(){
+		PessoaDAO.getInstance().alterar(pessoa);
+		this.limpar();
+		this.carregarLista();
+	}
+	
+	public void prepararEdicao() throws ParseException {
+
+		Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		Object parametroId = params.get("parametroId");
+		this.pessoa = PessoaDAO.getInstance().buscarPorID(Long.parseLong(parametroId.toString()));
+		this.refresh();
+	}
+		
+	private void refresh() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		ViewHandler viewHandler = application.getViewHandler();
+		UIViewRoot viewRoot = viewHandler.createView(context, context.getViewRoot().getViewId());
+		context.setViewRoot(viewRoot);
+		context.renderResponse();
+	}
+	
 }

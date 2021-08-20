@@ -29,7 +29,8 @@ public class SessionContext {
 	}
 	
 	public void encerrarSessao() {
-		currentExternalContext().invalidateSession();
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return;
 	}
 	
 	public Object getAttribute(String nome) {

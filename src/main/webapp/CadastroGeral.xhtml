@@ -45,7 +45,7 @@
 				<p:panel header="Dados Pessoais" id="painel">
 					<p:focus context="painel" for="cpf" />
 					<h:panelGrid columns="2" 
-						columnClasses="alinharEsquerda, alinharDireita" >
+						columnClasses=" alinharDireita, alinharEsquerda" >
 						
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />
@@ -89,13 +89,13 @@
 				
 				<br />
 				<p:spacer width="500" height="20" />
-				<p:commandButton value="Salvar" actionListener="#{pessoaMB.salvar}"
+				<p:commandButton value="Salvar" action="#{pessoaMB.salvar}"
 					title="Clique para adicionar na lista" update="formulario tabela"
 					icon="ui-icon-disk" >
 					<p:confirm header="Confirmação"
 						message="Tem certeza que deseja adicionar?" />
 				</p:commandButton>
-				<p:commandButton value="Editar" update="formulario tabela" 
+				<p:commandButton value="Editar" action="#{pessoaMB.alterar}" update="formulario tabela" 
 					icon="ui-icon-pencil" />
 				<p:commandButton value="Limpar" immediate="true" 
 					actionListener="#{pessoaMB.limpar}"  update="formulario tabela" />
@@ -149,14 +149,19 @@
 						</h:outputText>
 					</p:column>
 					
-					<p:column headerText="Editar" width="40" >
+					<p:column headerText="Editar" width="40" exportable="false">
 						<p:commandButton icon="ui-icon-pencil" title="Editar"
-							immediate="true" update="formulario" />
+							action="#{pessoaMB.prepararEdicao}"
+							immediate="true" update="formulario" >
+							<f:param name="parametroId" value="#{p.id}" />
+						</p:commandButton>
 					</p:column>
 					
-					<p:column headerText="Excluir" width="40" >
-						<p:commandButton icon="ui-icon-trash" title="Excluir"
-							immediate="true" update="tabela" />
+					<p:column headerText="Excluir" width="40" exportable="false" >
+						<p:commandButton action="#{pessoaMB.excluir}" icon="ui-icon-trash"
+							title="Excluir" immediate="true" update="tabela" >
+							<f:param name="parametroIdent" value="#{p.id}" />
+						</p:commandButton>
 					</p:column>
 					
 				</p:dataTable>
@@ -164,9 +169,10 @@
 			</p:tab>
 			
 			<p:tab title="Gráfico">
-				<h1>
-					<font class="corBranca">Nova aba em construção</font>
-				</h1>
+			
+				<p:chart type="line" model="#{GraficoAreaMB.areaModel}"
+					style="height: 300px" />
+				
 			</p:tab>
 			
 		</p:tabView> 
