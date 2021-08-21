@@ -52,7 +52,7 @@ public class LoginMB implements Serializable {
 			SessionContext.getInstance().setAttribute("usuario", login.getUsuario());
 			login = new Login();
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("FolhaPagamento.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("CadastroProduto.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -67,16 +67,20 @@
 							requiredMessage="Digite o Fabricante!" />
 
 						<p:outputLabel value="Quantidade:" for="quantidade" />
-						<p:inputNumber required="true" requiredMessage="Digite a Quantidade"
-							id="quantidade" value="#{produtoMB.produto.quantidade}" size="20" />
+						<p:inputText required="true" requiredMessage="Digite a Quantidade"
+							id="quantidade" value="#{produtoMB.produto.quantidade}" size="15"
+							maxlength="5" converterMessage="Informe um valor válido para o campo 'Quantidade'"
+							validatorMessage="Informe um valor entre 0 e 1000 para o campo 'Quantidade'">
+							<f:validateLongRange minimum="0" maximum="1000" />
+						</p:inputText>
 							
 						<p:outputLabel value="Preço:" for="preco" />
 						<p:inputNumber required="true" requiredMessage="Digite o Preço!"
-							id="preco" value="#{produtoMB.produto.preco}" size="20" />
+							id="preco" value="#{produtoMB.produto.preco}" size="15" />
 
 						
 						<p:outputLabel for="campoData" value="Data Cadastro" />
-						<p:calendar size="19" value="#{produtoMB.produto.data_cadastro}"
+						<p:calendar size="15" value="#{produtoMB.produto.data_cadastro}"
 							required="true" requiredMessage="Digite a Data Cadastro"
 							id="campoData" showOn="button" pattern="dd/MM/yyyy" />
 							
@@ -95,7 +99,8 @@
 				<p:commandButton value="Editar" action="#{produtoMB.alterar}"
 					update="formulario tabela" icon="ui-icon-pencil" />
 				<p:commandButton value="Limpar" immediate="true"
-					actionListener="#{produtoMBMB.limpar}" update="formulario tabela" />
+					actionListener="#{produtoMB.limpar}" update="formulario tabela" 
+					icon="ui-icon-circle-minus" />
 				<div style="text-align: right">
 					<h:commandLink immediate="true">
 						<p:graphicImage library="imagens" name="xls.png" width="3%"
@@ -160,13 +165,6 @@
 
 					</p:column>
 				</p:dataTable>
-
-			</p:tab>
-
-			<p:tab title="Gŕafico">
-
-				<p:chart type="line" model="#{GraficoAreaMB.areaModel}"
-					style="height:300px" />
 
 			</p:tab>
 
