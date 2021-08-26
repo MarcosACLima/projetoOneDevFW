@@ -13,6 +13,6 @@
   
   <context-param>
   	<param-name>primefaces.THEME</param-name>
-  	<param-value>blitzer</param-value>
+  	<param-value>eggplant</param-value>
   </context-param>
 </web-app>
